@@ -1,25 +1,20 @@
 version: '3'
 
-# You can get a more complete version from https://docs.min.io/docs/deploy-minio-on-docker-compose
+# You can take a look to a more complete version from https://docs.min.io/docs/deploy-minio-on-docker-compose
 services:
-  nodejs:
+  app:
     build:
       context: .
-      dockerfile: Dockerfile
-    image: minio-node:14
-    # image: node:14
-    container_name: minio-node--api
+    image: hows/minio-node:14
+    container_name: minio-node--app
     restart: unless-stopped
-    env_file: .env
-    environment:
-      - COOL_ENV_VARIABLE=$COOL_ENV_VARIABLE
     ports:
       - 8080:8080
     volumes:
       - .:/home/node/app
       - node_modules:/home/node/app/node_modules
-    networks:
-      - minio-node-network
+    # networks:
+    #   - minio-node-network
     # command: ./wait-for.sh db:27017 -- /home/node/app/node_modules/.bin/nodemon app.js
     command: npm run dev
     depends_on: [minio]
@@ -37,13 +32,13 @@ services:
       - MINIO_ROOT_PASSWORD=$MINIO_ROOT_PASSWORD
       - MINIO_ENDPOINT=$MINIO_ENDPOINT
     command: server /data
-    networks:
-      - minio-node-network
+    # networks:
+    #   - minio-node-network
     hostname: minio.local
 
-networks:
-  minio-node-network:
-    driver: bridge
+# networks:
+#   minio-node-network:
+#     driver: bridge
 
 volumes:
   node_modules:
