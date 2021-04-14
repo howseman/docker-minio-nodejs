@@ -1,13 +1,6 @@
-.env
-.git
-.gitignore
+# Ignore all
+*
 
-node_modules
-
-docker-compose.*
-Dockerfile
-.dockerignore
-minio_storage
-
-npm-debug.log
-README.md
+# Allow these
+!src
+!package*.json
